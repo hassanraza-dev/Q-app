@@ -1,0 +1,40 @@
+.search_box
+{
+    background-color:rgb(82, 82, 82);
+    padding: 30px;
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+}
+.search_box input
+{
+    width: 270px;
+    justify-self: center;
+    color: black;
+}
+
+.container_custom
+{
+    background-color: #525252;
+    margin:  0 auto;
+    width: 600px;
+    height: 280px;
+	margin-top: 10px;
+	/* display: flex; */
+	padding: 10px;
+}
+span
+{
+    color: white;
+}
+.container_custom h2
+{
+	
+    color: gainsboro;
+    margin: 0px;
+}
+
+button
+{
+    color: black;
+}
