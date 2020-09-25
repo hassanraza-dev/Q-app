@@ -1,4 +1,4 @@
-import React ,{useState} from 'react'
+import React ,{useState,useEffect} from 'react'
 import './index.css'
 import firebase from '../../config/firebase'
 import { Modal , Button ,Form} from 'react-bootstrap'
@@ -8,6 +8,11 @@ import {  useParams } from "react-router-dom";
 
 const Customer = ()=>
 {
+  useEffect(() => {
+    setCompany1()
+  },[])
+
+
   const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -34,6 +39,28 @@ const Customer = ()=>
 
         firebase.firestore().collection('Companies')
         .where("name", "==", search)
+        .get()
+        .then((response) => {
+            const list = []
+            response.forEach(doc => {
+    
+              const comp = doc.data()
+            
+              list.push({ ...comp, companiesId: doc.id })
+              setId(doc.id)
+    
+            })
+            setComList(list)
+            
+            console.log('listttt***', list)
+    
+          })
+      }
+
+      function setCompany1() {
+
+        firebase.firestore().collection('Companies')
+        
         .get()
         .then((response) => {
             const list = []

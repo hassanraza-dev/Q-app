@@ -14,7 +14,8 @@ import Customer from '../views/customer'
 
 const MainRouter = function({isLoggedIn})
 {
-    
+    console.log('user id in router',isLoggedIn.uid)
+    const userId = isLoggedIn.uid
     const currentPath = window.location.pathname.length === 1 ? 'home' : window.location.pathname
     console.log('current path',window.location.pathname.length)
     return(
@@ -37,7 +38,7 @@ const MainRouter = function({isLoggedIn})
                 
 
                     <Route path='/company'>
-                {AuthChecker(isLoggedIn, <Company />)}
+                {AuthChecker(isLoggedIn, <Company  userId={userId}/>)}
                     </Route>
 
                  

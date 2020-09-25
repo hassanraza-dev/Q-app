@@ -173,7 +173,7 @@ const Detail = ()=>
              return <div style={{background:'red'}}>
                         <div>{items.name}</div> 
                          <div>{items.email}</div>
-                         <div> <img src={items.url}/></div>
+                         <img src={items.url} style={{width:"100px",height:'100px'}}/>
                     </div>
            })}
 
@@ -191,7 +191,7 @@ const Detail = ()=>
             
             
            <h1>Tokens:<span style={{color:'yellowgreen',fontSize:'50px'}}>{company.token}</span></h1>
-           <h1>Sold:<span style={{color:'yellowgreen',fontSize:'50px'}}>{customerLength}<button onClick={handleShow1} btn btn-warning>See Customer</button></span></h1>
+           <h1>Sold:<span style={{color:'yellowgreen',fontSize:'50px'}}>{customerLength}<button onClick={handleShow1} className="btn btn-warning">See Customer</button></span></h1>
            
         <div style={{display:'flex',justifyContent:'flex-end',alignSelf:"flex-end"}}>
 

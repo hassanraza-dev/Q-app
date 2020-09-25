@@ -15,8 +15,8 @@ import MapComponent from '../../components/Maps'
 
 
 const Company = function (props) {
-
-
+  const userID = props.userId
+console.log('user Id in company',props.userId)
   const [map, setMap] = useState([])
 
   const getMapData = (data) => {
@@ -29,32 +29,38 @@ const Company = function (props) {
   const [comlist, setComList] = useState()
 
   function setCompany() {
-
-    firebase.firestore().collection('Companies').get()
-      .then((response) => {
-        const list = []
-        response.forEach(doc => {
-
-          const comp = doc.data()
-          list.push({ ...comp, companiesId: doc.id })
-
+ 
+    if(userID){
+      firebase.firestore().collection('Companies')
+      .where('userId','==',userID)
+      .get()
+        .then((response) => {
+          const list = []
+          response.forEach(doc => {
+  
+            const comp = doc.data()
+            list.push({ ...comp, companiesId: doc.id })
+  
+          })
+          setComList(list)
+          console.log('listttt***', list)
+  
         })
-        setComList(list)
-        console.log('listttt***', list)
 
-      })
+    }
+   
   }
 
 
   useEffect(() => {
-    // getAndSetCompany()
+    
     setCompany()
 
-  }, [])
-
+  }, [userID])
+  
   console.log('testtt', comlist)
   const onAddCompany = () => {
-    addCompany(name, since, timing, address, img)
+    addCompany(name, since, timing, address, img,userID)
 
 
 
@@ -71,6 +77,7 @@ const Company = function (props) {
   const [img, setImg] = useState()
   const [timing, setTiming] = useState('')
   const [address, setAddress] = useState()
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -130,7 +137,7 @@ const Company = function (props) {
 
             <Form.Group>
 
-              <Form.Label>Certificates (max 3 Images)</Form.Label>
+              <Form.Label>Certificates</Form.Label>
 
               <Form.Control type="file" onChange={onImageUpload} required></Form.Control>
 

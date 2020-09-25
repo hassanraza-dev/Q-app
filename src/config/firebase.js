@@ -24,12 +24,26 @@ import {  useParams } from "react-router-dom";
   function registerUser(email,password){
 
    return auth.createUserWithEmailAndPassword(email,password)
+   .then(userResonse => {
+    console.log("user Id______>",userResonse.user.uid)
+    const userId = userResonse.user.uid
+
+    firebase.firestore().collection("users").doc(userId).set({
+      email
+    }).then(() => {
+      alert("Rgistered!")
+    })
+  })
     
   }
 
   function loginUser(email,password){
 
    return auth.signInWithEmailAndPassword(email,password)
+  .then(userResponse=> {
+       const userId = userResponse.user.uid
+        localStorage.setItem('userId', userId)
+  })
     
   }
 
@@ -42,7 +56,7 @@ import {  useParams } from "react-router-dom";
        var token = result.credential.accessToken;
        // The signed-in user info.
        var user = result.user;
-       console.log('user***',user.email)
+       console.log('user***',result)
        
        // ...
      }).catch(function(error) {
@@ -57,7 +71,7 @@ import {  useParams } from "react-router-dom";
      });
      }
 
-    const addCompany = (name,since,timing,address,img)=>
+    const addCompany = (name,since,timing,address,img,userId)=>
     {
 
       const storageRef = firebase.storage().ref(`images/${Date.now()}`);
@@ -66,9 +80,10 @@ import {  useParams } from "react-router-dom";
 
         
     response.ref.getDownloadURL().then(function(url){
+      
 
       firebase.firestore().collection('Companies').add({
-        name,since,timing,address,url
+        name,since,timing,address,url,userId
       }).then(function(){
        
         alert('Add successfully')
