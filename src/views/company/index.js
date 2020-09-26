@@ -32,6 +32,7 @@ console.log('user Id in company',props.userId)
  
     if(userID){
       firebase.firestore().collection('Companies')
+      .limit(2)
       .where('userId','==',userID)
       .get()
         .then((response) => {
@@ -98,7 +99,7 @@ console.log('user Id in company',props.userId)
             <div className="container">
               <img src={items.url} />
               <h1>{items.name}</h1>
-              <div className="detail" onClick={() => history.push(`/detail/${items.companiesId}`)}>Details</div>
+              <button className="btn btn-primary" onClick={() => history.push(`/detail/${items.companiesId}`)}>Details</button>
 
 
             </div>

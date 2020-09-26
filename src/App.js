@@ -24,9 +24,10 @@ function App() {
 
   return (
     <div >
-      
-       {isLoggedIn  && <button onClick={logOut} className="btn btn-danger" style={{margin:"20px"}}>Logout</button>}
+      <div style={{background:'rgb(82, 82, 82)', display:'flex' , justifyContent:'flex-end'}}>
+      {isLoggedIn  && <button onClick={logOut} className="btn btn-danger" style={{margin:"20px"}}>Logout</button>}
        {isLoggedIn  && <h4 style={{color:"white"}}>{isLoggedIn.name}</h4>}
+        </div>  
       <Router isLoggedIn={isLoggedIn} />
     </div>
   )

@@ -40,7 +40,7 @@ label
     width: 600px;
     height: 250px;
 	margin-top: 10px;
-	display: flex;
+	/* display: flex; */
 	padding: 20px;
 }
 
