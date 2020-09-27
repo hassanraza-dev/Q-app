@@ -18,10 +18,15 @@ const Company = function (props) {
   const userID = props.userId
 console.log('user Id in company',props.userId)
   const [map, setMap] = useState([])
+  const [lt , setLt] = useState()
+  const [ln , setLn] = useState()
 
-  const getMapData = (data) => {
+  const getMapData = (data,lt,ln) => {
     console.log("get map data in function", data.response.venues)
+    console.log("get ln and lt data in function",lt,ln)
     setMap(data.response.venues)
+    setLn(ln)
+    setLt(lt)
 
   }
 
@@ -32,7 +37,7 @@ console.log('user Id in company',props.userId)
  
     if(userID){
       firebase.firestore().collection('Companies')
-      .limit(2)
+      // .limit(2)
       .where('userId','==',userID)
       .get()
         .then((response) => {
@@ -61,7 +66,7 @@ console.log('user Id in company',props.userId)
   
   console.log('testtt', comlist)
   const onAddCompany = () => {
-    addCompany(name, since, timing, address, img,userID)
+    addCompany(name, since, timing, address, img,userID,lt,ln)
 
 
 

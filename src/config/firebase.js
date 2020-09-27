@@ -71,7 +71,7 @@ import {  useParams } from "react-router-dom";
      });
      }
 
-    const addCompany = (name,since,timing,address,img,userId)=>
+    const addCompany = (name,since,timing,address,img,userId,ln ,lt)=>
     {
 
       const storageRef = firebase.storage().ref(`images/${Date.now()}`);
@@ -83,7 +83,7 @@ import {  useParams } from "react-router-dom";
       
 
       firebase.firestore().collection('Companies').add({
-        name,since,timing,address,url,userId
+        name,since,timing,address,url,userId,lt,ln
       }).then(function(){
        
         alert('Add successfully')

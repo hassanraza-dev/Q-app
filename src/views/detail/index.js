@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { useHistory } from "react-router-dom";
+
 import { Modal , Button ,Form} from 'react-bootstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 import {addToken} from '../../config/firebase'
@@ -11,36 +11,41 @@ import Customer from '../customer';
 
 const Detail = ()=>
 {
-  useEffect(()=>{
-    
-    getSingleCompany()
-    getCustomer()
-
-    
-  },[])
-
+ 
  
 
-  let today = new Date();
+  const date = new Date().getDate();
 
   let {slug} = useParams();
 
  
 
   
-  const [company,setCompany] = useState()
+  const [company,setCompany] = useState('')
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [token, setToken] = useState();    
   const [time, setTime] = useState('');   
-  
   const [customer,setCustom] = useState()
-
+  
   const [customerLength,setCustomerLength] = useState()
   
-  const currentTime = today.getDate()
+  
+  useEffect(()=>{
+    
+    getSingleCompany()
+    getCustomer()
+    tokenReset()
+ 
+  },[])
+ 
 
-
+  const onAddToken = ()=>
+  {
+    
+    
+      addToken(token,time,slug,date)
+  }
      const getCustomer = ()=>
      {
        firebase.firestore().collection('Customer')
@@ -62,21 +67,43 @@ const Detail = ()=>
        })
        
      }
+   
      console.log('customer==========>',customerLength)
   
- 
+   
   
 
 
       
     function getSingleCompany() {
+      
+ 
     
       var docRef = firebase.firestore().collection("Companies").doc(slug);
 
       docRef.get().then(function(doc) {
           if (doc.exists) {
-              console.log("Document data:", doc.data());
+              
               setCompany(doc.data())
+              if (doc.data().regtime) {
+                const date = new Date().getDate();
+                console.log("if se reg time chala")
+                if (doc.data().regtime !== date) {
+                    
+                  docRef.update({
+                    token:0,
+                    regtime:0
+                  }).then(() => {
+                    console.log('Token Reset')
+                  })
+                    
+        
+                }
+                else{ return }
+            }
+            else { return }
+              
+              
           } else {
               // doc.data() will be undefined in this case
               console.log("No such document!");
@@ -86,34 +113,25 @@ const Detail = ()=>
       });
 
     }
+    const tokenReset = () => {
+      
+      
+  }
 
   if(!company){
     return <h1 style={{color:'white'}}>Loading...</h1>
   }
-
-   
+ 
 
     const handleClose = () => setShow(false);
     const handleClose1 = () => setShow1(false);
     const handleShow = () => setShow(true);  
     const handleShow1 = () => setShow1(true);  
 
-    const onAddToken = ()=>
-    {
-      
-      
-        addToken(token,time,slug,currentTime)
-    }
+  
    
     
-      if(company.regtime !== currentTime)
-      {
-        firebase.firestore().collection('Companies').doc(slug).update({
-          token:'0'
-        }).then(()=>{
-          console.log("reset Successfuly")
-        })
-      }
+     
     
     
     
@@ -191,7 +209,7 @@ const Detail = ()=>
             
             
            <h1>Tokens:<span style={{color:'yellowgreen',fontSize:'50px'}}>{company.token}</span></h1>
-           <h1>Sold:<span style={{color:'yellowgreen',fontSize:'50px'}}>{customerLength}<button onClick={handleShow1} className="btn btn-warning">See Customer</button></span></h1>
+          <button className="btn btn-warning" onClick={handleShow1}>See Customers</button>
            
         <div style={{display:'flex',justifyContent:'flex-end',alignSelf:"flex-end"}}>
 

@@ -5,12 +5,13 @@ import { Modal , Button ,Form} from 'react-bootstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 import {buyToken} from '../../config/firebase'
 import {  useParams } from "react-router-dom";
+import MapComponent from '../../components/Maps'
+import { useHistory } from "react-router-dom";
 
 const Customer = ()=>
 {
-  useEffect(() => {
-    setCompany1()
-  },[])
+  const history = useHistory()
+ 
 
 
   const handleClose = () => setShow(false);
@@ -24,8 +25,8 @@ const Customer = ()=>
     const [image,setImage] = useState()
 
     const [id,setId] = useState()
-    let {slug} = useParams();
-    console.log("search====>",slug)
+    // let {slug} = useParams();
+    console.log("search====>",id)
     
 
   const onBuyToken = ()=>
@@ -57,27 +58,7 @@ const Customer = ()=>
           })
       }
 
-      function setCompany1() {
-
-        firebase.firestore().collection('Companies')
-        
-        .get()
-        .then((response) => {
-            const list = []
-            response.forEach(doc => {
-    
-              const comp = doc.data()
-            
-              list.push({ ...comp, companiesId: doc.id })
-              setId(doc.id)
-    
-            })
-            setComList(list)
-            
-            console.log('listttt***', list)
-    
-          })
-      }
+     
     return(
         
         <>
@@ -145,13 +126,14 @@ const Customer = ()=>
             <div className="container_custom">
               <img src={items.url} />
              <span>Company Name :</span> <h2>{items.name}</h2>
-             <span>Address :</span> <h2>{items.address}</h2>
+             <span>Address :</span> <h2><button className="btn btn-primary" onClick={() => history.push(`/companylocation/${id}`)}>{items.address}</button></h2>
              <span>Timing :</span> <h2>{items.timing}</h2>
              <span>Since :</span> <h2>{items.since}</h2>
              <span>Token :</span> <h2>{items.token}</h2>
               
             <button className="btn btn-warning"  onClick={handleShow}>Buy Token</button>
 
+          
             </div>
           )
         })

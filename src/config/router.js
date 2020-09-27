@@ -11,6 +11,7 @@ import Home from '../views/home'
 import Company from '../views/company'
 import Detail  from '../views/detail'
 import Customer from '../views/customer'
+import Companylocation from '../views/companyLocation'
 
 const MainRouter = function({isLoggedIn})
 {
@@ -22,6 +23,10 @@ const MainRouter = function({isLoggedIn})
         <Router>
             <div>
                 <Switch>
+                <Route path='/companylocation/:slug'>
+                {AuthChecker(isLoggedIn, <Companylocation  />)}
+                    </Route>
+
                 <Route path='/customer'>
                 {AuthChecker(isLoggedIn, <Customer />)}
                     </Route>
