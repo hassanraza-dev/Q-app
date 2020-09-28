@@ -5,7 +5,7 @@
     width: 600px;
     height: 400px auto;
     margin-bottom: 30px;
-    
+    box-shadow: 0px 0px 10px honeydew;
     padding: 20px;
     
     
@@ -34,6 +34,7 @@
       align-self: flex-end;
       margin-left: 350px;
       /* margin-top: 50px; */
+      
      
       
       

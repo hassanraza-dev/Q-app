@@ -20,6 +20,27 @@ console.log('user Id in company',props.userId)
   const [map, setMap] = useState([])
   const [lt , setLt] = useState()
   const [ln , setLn] = useState()
+  const [limit, setLimit] = useState(2)
+  let loading = false
+
+  useEffect(() => {
+    
+    setCompany()
+    console.log('limit useEffect***', limit)
+    document.addEventListener('scroll', trackScrolling)
+
+  }, [userID,limit])
+
+  useEffect(() => { 
+    document.addEventListener('scroll', trackScrolling)
+    
+    return () => {
+      document.removeEventListener('scroll', trackScrolling);
+    }
+  },[]
+  )
+  
+
 
   const getMapData = (data,lt,ln) => {
     console.log("get map data in function", data.response.venues)
@@ -33,40 +54,51 @@ console.log('user Id in company',props.userId)
   const history = useHistory()
   const [comlist, setComList] = useState()
 
-  function setCompany() {
+   const  setCompany = () => {
  
     if(userID){
+      loading = true
       firebase.firestore().collection('Companies')
-      // .limit(2)
+      .limit(limit)
       .where('userId','==',userID)
-      .get()
-        .then((response) => {
-          const list = []
-          response.forEach(doc => {
-  
-            const comp = doc.data()
-            list.push({ ...comp, companiesId: doc.id })
-  
-          })
-          setComList(list)
-          console.log('listttt***', list)
-  
-        })
+      .onSnapshot((response) => {
+        const list = []
+        response.forEach(doc => {
 
+          const comp = doc.data()
+          list.push({ ...comp, companiesId: doc.id })
+
+        })
+        setComList(list)
+        console.log('listttt***', list)
+      })
+  
+loading = false
     }
    
   }
+   const isBottom = (el) => {
+    return el.getBoundingClientRect().bottom <= window.innerHeight + 10;
+  }
+
+  const trackScrolling = () => {
+    const wrappedElement = document.getElementById('header')
+    if (isBottom(wrappedElement) && !loading) {
+      console.log('header bottom reached', limit);
+      setLimit(limit + 2)
+
+      document.removeEventListener('scroll', trackScrolling);
+    }
+  };
 
 
-  useEffect(() => {
-    
-    setCompany()
-
-  }, [userID])
+ 
   
   console.log('testtt', comlist)
   const onAddCompany = () => {
     addCompany(name, since, timing, address, img,userID,lt,ln)
+    setShow(false)
+    setCompany()
 
 
 
@@ -96,7 +128,9 @@ console.log('user Id in company',props.userId)
 
 
   return (
-    <>
+    
+    <div id="header">
+
       <h1 style={{ textAlign: 'center', color: 'white', fontSize: '60px' }}>Companies</h1>
       {
         comlist && comlist.map(items => {
@@ -199,7 +233,7 @@ console.log('user Id in company',props.userId)
         </div>
       </div>
 
-    </>
+    </div>
   );
 }
 

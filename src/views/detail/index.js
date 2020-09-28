@@ -35,17 +35,23 @@ const Detail = ()=>
     
     getSingleCompany()
     getCustomer()
-    tokenReset()
+    
+    
  
   },[])
  
 
   const onAddToken = ()=>
   {
-    
-    
       addToken(token,time,slug,date)
+      handleClose()
+      getSingleCompany()
+      
   }
+
+
+
+
      const getCustomer = ()=>
      {
        firebase.firestore().collection('Customer')
@@ -113,10 +119,7 @@ const Detail = ()=>
       });
 
     }
-    const tokenReset = () => {
-      
-      
-  }
+   
 
   if(!company){
     return <h1 style={{color:'white'}}>Loading...</h1>

@@ -92,8 +92,8 @@ import {  useParams } from "react-router-dom";
         alert(err.message)
       })
     })
-    }).catch(function(error){
-      console.log(error)
+    }).catch(function(err){
+      alert(err.message)
   
     })
     
