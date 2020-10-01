@@ -1,0 +1,19 @@
+.customer_list {
+  background-color: crimson;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.customer_list img {
+  width: 50px;
+  height: 50px;
+  background-color: wheat;
+  border-radius: 50%;
+}
+
+.customer_list h3 {
+  margin: 20px;
+}
