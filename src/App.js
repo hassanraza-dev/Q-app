@@ -5,6 +5,7 @@ import firebase from "./config/firebase";
 function App() {
   useEffect(() => {
     listenAuthentication();
+    
   }, []);
 
   const [isLoggedIn, setLoggedIn] = useState(true);
@@ -42,7 +43,7 @@ function App() {
             Logout
           </button>
         )}
-        {isLoggedIn && <h4 style={{ color: "white" }}>{isLoggedIn.name}</h4>}
+        {isLoggedIn && <h2 style={{ color: "white" ,margin:'20px' }}>{isLoggedIn.name}</h2>}
       </div>
       <Router isLoggedIn={isLoggedIn} />
     </div>

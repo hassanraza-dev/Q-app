@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import "./index.css";
 import { useHistory } from "react-router-dom";
-
+document.addEventListener('DOMContentLoaded', function() {
+  if (!Notification) {
+   alert('Desktop notifications not available in your browser. Try Chromium.');
+   return;
+  }
+ 
+  if (Notification.permission !== 'granted')
+   Notification.requestPermission();
+ });
 const Home = function () {
   let history = useHistory();
   return (

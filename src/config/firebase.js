@@ -163,7 +163,7 @@ const buyToken = (name, email, image, id) => {
             customerUserId,
           })
           .then(function () {
-            tokenNum++;
+            tokenNum=tokenNum+1;
             alert("Add successfully");
 
             firebase

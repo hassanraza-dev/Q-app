@@ -4,8 +4,11 @@ import "./index.css";
 
 const Tokens = () => {
   const [customer, setCustomer] = useState();
-  const [companyId, setCompanyId] = useState();
-  console.log("comapny ka dtaat", companyId);
+  const [currentToken, setCurrentToken] = useState();
+  const [companyName, setCompanyName] = useState();
+  const [customerToken, setCustomerToken] = useState();
+
+  
   useEffect(() => {
     seeTokens();
   }, []);
@@ -21,8 +24,18 @@ const Tokens = () => {
         const list = [];
         res.forEach((doc) => {
           const cust = doc.data();
-          setCompanyId(doc.data().id);
+          console.log('id of customer', doc.id)
+          setCustomerToken(doc.data().tokenNum)
           list.push(cust);
+
+          firebase.firestore().collection("Companies")
+          .doc(doc.data().id)
+          .get()
+          .then(res => {
+            console.log('aja bhai data',res.data())
+            setCurrentToken(res.data().currentToken)
+            setCompanyName(res.data().name)
+          })
         });
         setCustomer(list);
       })
@@ -30,6 +43,9 @@ const Tokens = () => {
         console.log("no such data", err);
       });
   };
+ 
+ 
+     
 
   return (
     <>
@@ -40,9 +56,13 @@ const Tokens = () => {
         customer.map((items) => {
           return (
             <div className="customer_list">
-              <h3>Name : {items.name}</h3>
-              <h3>Token Number : {items.tokenNum}</h3>
               <img src={items.url} />
+              <h3>Name : {items.name}</h3>
+              <h3>Your Token Number : {items.tokenNum}</h3>
+              <h3>Current Token : {currentToken}</h3>
+              <h3>Company : {companyName}</h3>
+              <button className="btn btn-warning">Cancel Token</button>
+              
             </div>
           );
         })}

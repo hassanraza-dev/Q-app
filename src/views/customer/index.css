@@ -33,7 +33,7 @@ button {
 }
 
 .your_token {
-  background-color: #ffc107;
+  background-color:crimson;
   width: 90px;
   height: 90px;
   border-radius: 50%;
@@ -43,7 +43,9 @@ button {
   text-align: center;
   margin-left: 20px;
   cursor: pointer;
+  padding: 5px;
 }
 .your_token h1 {
   line-height: 35px;
+  color: white;
 }

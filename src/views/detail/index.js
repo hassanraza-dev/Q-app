@@ -126,8 +126,24 @@ const Detail = () => {
       })
       .then(() => {
         getSingleCompany();
+        notifyMe()
       });
   };
+  function notifyMe() {
+    
+    if (Notification.permission !== 'granted')
+     Notification.requestPermission();
+    else {
+     var notification = new Notification('Customer Alert', {
+      icon: 'https://cdn.iconscout.com/icon/free/png-512/q-characters-character-alphabet-letter-36051.png',
+      body: '',
+     });
+     notification.onclick = function() {
+      window.open('http://localhost:3000/tokens');
+     };
+    }
+   
+}
 
   return (
     <>
