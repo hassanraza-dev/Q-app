@@ -9,6 +9,9 @@ import MapComponent from "../../components/Maps";
 import { useHistory } from "react-router-dom";
 
 const Customer = (props) => {
+
+
+
   const history = useHistory();
 
   const handleClose = () => setShow(false);
@@ -20,13 +23,21 @@ const Customer = (props) => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [image, setImage] = useState();
-  const [tokenNo, setCurrentToken] = useState(1);
   const [id, setId] = useState();
+  const [tokenNum, setTokenNum] = useState();
+  
+
+ 
+
+
+  
+  
 
   const onBuyToken = () => {
-    buyToken(name, email, image, id, tokenNo);
+    
+    buyToken(name, email, image, id,tokenNum);
   };
-
+  console.log("jgdjftwqfuui")
   function setCompany() {
     firebase
       .firestore()
@@ -37,9 +48,10 @@ const Customer = (props) => {
         const list = [];
         response.forEach((doc) => {
           const comp = doc.data();
-          setCurrentToken(doc.data().currentToken);
           list.push({ ...comp, companiesId: doc.id });
           setId(doc.id);
+          let total = parseInt(doc.data().Total) + 1
+          setTokenNum(total - doc.data().token)
         });
         setComList(list);
 

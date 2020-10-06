@@ -5,6 +5,7 @@ import { addToken } from "../../config/firebase";
 import firebase from "../../config/firebase";
 import { useParams } from "react-router-dom";
 import "./index.css";
+import swal from "sweetalert";
 
 const Detail = () => {
   const date = new Date().getDate();
@@ -16,9 +17,13 @@ const Detail = () => {
   const [token, setToken] = useState();
   const [time, setTime] = useState("");
   const [customer, setCustom] = useState();
-  let [currentToken, setCurrentToken] = useState();
+  let   [currentToken, setCurrentToken] = useState();
   const [customerLength, setCustomerLength] = useState();
   const [isChecked, setIsChecked] = useState(true);
+  
+
+  
+console.log('customer ki length' ,customerLength)
 
   // event handler to fire when checkbox checked value changes
   function handleCheckedChange(e) {
@@ -29,14 +34,7 @@ const Detail = () => {
       Allow: isChecked,
     });
   }
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     updateToken()
-  //     console.log('hahah')
-  //   }, 3000);
-  //              // clearing interval
-  //   return () => clearInterval(timer);
-  // });
+ 
 
   useEffect(() => {
     getSingleCompany();
@@ -79,6 +77,8 @@ const Detail = () => {
         if (doc.exists) {
           setCompany(doc.data());
           setCurrentToken(doc.data().currentToken);
+          
+          
           if (doc.data().regtime) {
             const date = new Date().getDate();
 
@@ -117,7 +117,15 @@ const Detail = () => {
   const handleShow1 = () => setShow1(true);
 
   const updateToken = () => {
-    firebase
+    
+    
+     if(currentToken >= customerLength)
+     {
+      swal("Limit Reached ", "", "info");
+     }
+     else
+     {
+      firebase
       .firestore()
       .collection("Companies")
       .doc(slug)
@@ -127,23 +135,45 @@ const Detail = () => {
       .then(() => {
         getSingleCompany();
         notifyMe()
-      });
+        
+      })
+     }
+    
+
+    
   };
+let total1 = currentToken+2
+console.log("token haii", currentToken)
+  
   function notifyMe() {
     
     if (Notification.permission !== 'granted')
      Notification.requestPermission();
     else {
-     var notification = new Notification('Customer Alert', {
+     var notification = new Notification("Token Number" + total1, {
       icon: 'https://cdn.iconscout.com/icon/free/png-512/q-characters-character-alphabet-letter-36051.png',
-      body: '',
-     });
+      body: 'Is your turn after 10mins',
+     },
+     
+     );
+     
      notification.onclick = function() {
       window.open('http://localhost:3000/tokens');
      };
+     
     }
+ 
    
 }
+
+//  useEffect(() => {
+//     const timer = setInterval(() => {
+//       updateToken()
+//       console.log('hahah')
+//     }, time*6000);
+//                // clearing interval
+//     return () => clearInterval(timer);
+//   });
 
   return (
     <>
@@ -164,10 +194,10 @@ const Detail = () => {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Time of each turn</Form.Label>
+              <Form.Label>Time of each turn (minutes)</Form.Label>
 
               <Form.Control
-                type="text"
+                type="number"
                 onChange={(e) => setTime(e.target.value)}
                 required
               ></Form.Control>
@@ -228,6 +258,7 @@ const Detail = () => {
           Tokens:
           <span style={{ color: "yellowgreen", fontSize: "50px" }}>
             {company.token}
+
           </span>
         </h1>
         <h1>
@@ -262,7 +293,7 @@ const Detail = () => {
               {/* set the checked attribute to the value of the isChecked value from state*/}
               <input
                 type="checkbox"
-                checked={isChecked}
+                // checked={isChecked}
                 onChange={handleCheckedChange}
               />
               <label style={{ color: "wheat", margin: "9px" }}>

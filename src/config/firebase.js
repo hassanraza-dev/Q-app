@@ -2,6 +2,11 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
+import React , {useState} from 'react';
+
+
+
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -134,16 +139,24 @@ const addToken = (token, time, slug, regtime) => {
       token: token,
       time: time,
       regtime: regtime,
+      Total: token
     })
     .then(function () {
       swal("Successfully ", "", "success");
+      
     })
     .catch(function (error) {
       swal("Error", "Something Wrong", "error");
     });
 };
-let tokenNum = 1;
-const buyToken = (name, email, image, id) => {
+
+
+
+
+
+
+
+const buyToken = (name, email, image, id,tokenNum) => {
   const storageRef = firebase.storage().ref(`customerImg/${Date.now()}`);
   const customerUserId = localStorage.getItem("FBuserId");
   console.log("custmoer ki id", customerUserId);
@@ -163,7 +176,6 @@ const buyToken = (name, email, image, id) => {
             customerUserId,
           })
           .then(function () {
-            tokenNum=tokenNum+1;
             alert("Add successfully");
 
             firebase
